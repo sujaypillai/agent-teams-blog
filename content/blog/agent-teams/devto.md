@@ -11,7 +11,7 @@ If you've ever tried to find details about a specific CNCF certification exam, y
 
 I wanted to fix that — build a clean, searchable hub for all 15 CNCF certification exams. But the design space was wide open. What frontend framework? What search technology? Where to host? How to keep the data in sync with the upstream [curriculum repo](https://github.com/cncf/curriculum)? The kind of project where you can burn an entire day debating "static site generator or full server?" before writing a single line of code. (Spoiler: the finished site is live at [cncfexamguide.sujaypill.ai](https://cncfexamguide.sujaypill.ai).)
 
-Instead, I opened a terminal, typed one prompt, and watched three AI agents debate the architecture *for* me. Three and a half minutes later, I had a synthesized design document that was better than anything I'd have written alone — because one of the agents was specifically hired to **tear the plan apart**.
+Instead, I opened a terminal, typed one prompt, and watched three AI agents debate the architecture _for_ me. Three and a half minutes later, I had a synthesized design document that was better than anything I'd have written alone — because one of the agents was specifically hired to **tear the plan apart**.
 
 This is the story of that session, and a deep dive into Claude Code's **Agent Teams** feature — the experimental capability that lets you spawn multiple specialized agents that work in parallel, each with a distinct role and perspective.
 
@@ -27,20 +27,31 @@ Rather than spiraling into analysis paralysis, I decided to let Claude Code's Ag
 
 Agent Teams lets you launch specialized "teammates" directly from your prompt using the `@teammate-name` syntax. Each teammate runs as an independent Claude Code instance with its own context, tools, and instructions. Here's the prompt I used:
 
-```
-I want to build a CNCF Exam Search Website. Use the curriculum repo
-at github.com/cncf/curriculum as the data source.
+```text
+I'm designing a website that will run on Azure
+Container Apps which will help users to search for
+all the CNCF exams and its guide. The curriculum for
+all the exams are found in this github repo -
+https://github.com/cncf/curriculum.git
+This has been cloned into current directory as
+curriculum folder. Create an agent team to explore
+this from different angles: one teammate on UX, one
+on technical architecture, one playing devil's
+advocate.
 
-@ux-designer — Focus on information architecture, search UX,
-user journeys, exam comparison features, mobile-first, accessibility.
+@ux-designer — Focus on information architecture,
+search UX, user journeys, exam comparison features,
+mobile-first, accessibility.
 
-@architect — Focus on Azure Container Apps deployment,
-frontend/backend stack, data pipeline from GitHub, search
-implementation, CI/CD, infrastructure-as-code.
+@architect — Focus on Azure Container Apps
+deployment, frontend/backend stack, data pipeline
+from GitHub, search implementation, CI/CD,
+infrastructure-as-code.
 
-@devils-advocate — Challenge every assumption. Is ACA overkill?
-Are we over-engineering? Cost analysis. Competitive landscape.
-What are simpler alternatives?
+@devils-advocate — Challenge every assumption.
+Is ACA overkill? Are we over-engineering? Cost
+analysis. Competitive landscape. What are simpler
+alternatives?
 ```
 
 ![The prompt that started it all — one input, three agents about to spin up](https://raw.githubusercontent.com/sujaypillai/agent-teams-blog/main/content/blog/agent-teams/images/frame_001.png)
@@ -57,13 +68,13 @@ The moment I hit Enter, Claude Code spawned three independent agents — each on
 
 Here's where it gets interesting. Claude Code offers two **display modes** for agent teams — and the one I used, **in-process mode**, keeps everything in a single terminal window.
 
-| Feature | In-Process | Split Panes |
-|---------|-----------|-------------|
-| Terminal setup | Single window | Requires tmux or iTerm2 |
-| Navigation | `Shift+↑/↓` to switch agents | Each agent in its own pane |
-| Visibility | One agent at a time, status bar for all | All agents visible simultaneously |
-| Best for | Quick sessions, any terminal | Long-running parallel work |
-| Configuration | `--teammate-mode in-process` | `--teammate-mode split-panes` |
+| Feature        | In-Process                              | Split Panes                       |
+| -------------- | --------------------------------------- | --------------------------------- |
+| Terminal setup | Single window                           | Requires tmux or iTerm2           |
+| Navigation     | `Shift+↑/↓` to switch agents            | Each agent in its own pane        |
+| Visibility     | One agent at a time, status bar for all | All agents visible simultaneously |
+| Best for       | Quick sessions, any terminal            | Long-running parallel work        |
+| Configuration  | `--teammate-mode in-process`            | `--teammate-mode split-panes`     |
 
 In in-process mode, a **teammate navigation bar** appears at the bottom of the terminal showing all active agents. You can see each agent's name, switch between them, and monitor their progress — all without leaving your terminal.
 
@@ -117,7 +128,7 @@ Key recommendations from the architect:
 
 ### 😈 The Devil's Advocate Strikes
 
-And then there was the `@devils-advocate`. This is where things got *really* interesting.
+And then there was the `@devils-advocate`. This is where things got _really_ interesting.
 
 ![The devil's advocate delivering critical analysis](https://raw.githubusercontent.com/sujaypillai/agent-teams-blog/main/content/blog/agent-teams/images/frame_009.png)
 
@@ -139,7 +150,7 @@ The synthesis document had clear sections: **Consensus Points** (where all three
 
 ### The Plot Twist: What the Devil's Advocate Changed
 
-This was my favorite part of the entire session. The synthesis included a dedicated section titled **"What the Devil's Advocate Changed"** — a list of concrete ways the critical review *actually improved* the final design:
+This was my favorite part of the entire session. The synthesis included a dedicated section titled **"What the Devil's Advocate Changed"** — a list of concrete ways the critical review _actually improved_ the final design:
 
 ![The payoff — the devil's advocate made the design genuinely better](https://raw.githubusercontent.com/sujaypillai/agent-teams-blog/main/content/blog/agent-teams/images/frame_013.png)
 
@@ -234,6 +245,7 @@ Is this a replacement for real human collaboration? No. But as a **first pass** 
 ---
 
 **Resources:**
+
 - [Claude Code Agent Teams Documentation](https://code.claude.com/docs/en/agent-teams)
 - [Display Mode Configuration Guide](https://code.claude.com/docs/en/agent-teams#choose-a-display-mode)
 - [CNCF Curriculum Repository](https://github.com/cncf/curriculum)
